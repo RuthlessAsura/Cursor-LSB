@@ -30,8 +30,7 @@ export default function About() {
           <h2 className="text-3xl md:text-4xl font-bold mb-6">About Me</h2>
           
           <p className="text-lg mb-6">
-            Hello, I'm Jane Doe, a professional makeup artist with over 8 years of experience in the beauty industry. 
-            My passion for makeup artistry began at a young age, and I've turned that passion into a successful career.
+            Sarah Condrea, upcoming makeup artist.
           </p>
           
           <p className="text-lg mb-6">
@@ -46,7 +45,7 @@ export default function About() {
                 <svg className="w-6 h-6 text-dark-pink dark:text-light-pink mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
-                <span>Certified Professional Makeup Artist - Beauty Academy NYC</span>
+                <span>Certified Professional Makeup Artist</span>
               </li>
               <li className="flex items-start">
                 <svg className="w-6 h-6 text-dark-pink dark:text-light-pink mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -60,22 +59,10 @@ export default function About() {
                 </svg>
                 <span>Editorial Makeup Expert</span>
               </li>
-              <li className="flex items-start">
-                <svg className="w-6 h-6 text-dark-pink dark:text-light-pink mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                <span>Featured in Vogue, Elle, and Cosmopolitan</span>
-              </li>
             </ul>
           </div>
           
-          <div className="mb-8">
-            <h3 className="text-xl font-bold mb-4">My Approach</h3>
-            <p className="text-lg">
-              I believe that makeup should enhance your natural beauty, not mask it. My goal is to create looks that make you 
-              feel confident and beautiful. I work with high-quality products that are gentle on the skin and ensure long-lasting results.
-            </p>
-          </div>
+        
           
           <motion.a
             href="#contact"
@@ -103,22 +90,10 @@ export default function About() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {[
             {
-              name: "Sarah Johnson",
-              role: "Bride",
-              quote: "Jane did my wedding makeup and I couldn't have been happier! She understood exactly what I wanted and made me feel so beautiful on my special day.",
+              name: "Rebecca",
+              role: "petardiera",
+              quote: "Prea tare fata asta",
               image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=250&auto=format&fit=crop"
-            },
-            {
-              name: "Emily Davis",
-              role: "Model",
-              quote: "Working with Jane for my photoshoot was amazing. She's professional, talented, and has an incredible eye for detail. The results were stunning!",
-              image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=250&auto=format&fit=crop"
-            },
-            {
-              name: "Michael Chen",
-              role: "Fashion Designer",
-              quote: "Jane is my go-to makeup artist for all my fashion shows. Her creativity and ability to bring my vision to life is unparalleled. Highly recommended!",
-              image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=250&auto=format&fit=crop"
             }
           ].map((testimonial, index) => (
             <motion.div
@@ -131,11 +106,14 @@ export default function About() {
             >
               <div className="absolute top-0 right-0 -mt-4 -mr-4 w-8 h-8 bg-dark-pink dark:bg-light-pink rounded-full"></div>
               <div className="flex items-center mb-4">
-                <img 
-                  src={testimonial.image} 
-                  alt={testimonial.name}
-                  className="w-16 h-16 rounded-full object-cover mr-4"
-                />
+                <svg 
+                  className="w-12 h-12 text-dark-pink dark:text-light-pink mr-4 flex-shrink-0" 
+                  fill="currentColor" 
+                  viewBox="0 0 24 24" 
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                </svg>
                 <div>
                   <h4 className="font-bold">{testimonial.name}</h4>
                   <p className="text-dark-pink dark:text-light-pink">{testimonial.role}</p>

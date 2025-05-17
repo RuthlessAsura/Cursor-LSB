@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 // 3D Makeup icons using SVG
@@ -61,82 +61,175 @@ export default function Home() {
     offset: ["start start", "end start"]
   });
 
-  // Parallax and rotation values for each icon
-  const rotate1 = useTransform(scrollYProgress, [0, 1], [0, 15]);
-  const rotate2 = useTransform(scrollYProgress, [0, 1], [0, -20]);
-  const rotate3 = useTransform(scrollYProgress, [0, 1], [0, 25]);
-  const rotate4 = useTransform(scrollYProgress, [0, 1], [0, -15]);
-  const rotate5 = useTransform(scrollYProgress, [0, 1], [0, 10]);
-
-  const translateY1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const translateY2 = useTransform(scrollYProgress, [0, 1], [0, 50]);
-  const translateY3 = useTransform(scrollYProgress, [0, 1], [0, -70]);
-  const translateY4 = useTransform(scrollYProgress, [0, 1], [0, 120]);
-  const translateY5 = useTransform(scrollYProgress, [0, 1], [0, -50]);
+  // Transform values for 3D animation based on scroll
+  const rotateX = useTransform(scrollYProgress, [0, 1], [0, 10]);
+  const rotateY = useTransform(scrollYProgress, [0, 1], [0, 10]);
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.9]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.3]);
+  
+  // Animation for sequential fade-in of icons
+  const iconVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: 0.3 + i * 0.2,
+        duration: 0.5,
+        ease: "easeOut"
+      }
+    })
+  };
+  
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() => {
+    setMounted(true);
+    
+    // Add a subtle cursor-following effect to the hero background
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!containerRef.current) return;
+      
+      const x = e.clientX / window.innerWidth - 0.5;
+      const y = e.clientY / window.innerHeight - 0.5;
+      
+      // Apply a subtle transform to create a parallax/3D effect
+      containerRef.current.style.transform = `perspective(1000px) rotateX(${y * -5}deg) rotateY(${x * 5}deg)`;
+    };
+    
+    window.addEventListener('mousemove', handleMouseMove);
+    
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+  
+  if (!mounted) return null;
 
   return (
-    <section id="home" ref={containerRef} className="relative min-h-screen overflow-hidden bg-gradient-to-b from-white to-light-pink/30 dark:from-gray-900 dark:to-dark-pink/30">
-      {/* Background makeup icons */}
-      <motion.div className="absolute w-full h-full overflow-hidden">
-        <motion.div style={{ rotate: rotate1, y: translateY1, x: '-5vw' }} className="absolute top-[10%] left-[10%]">
-          <MakeupIcon icon="lipstick" />
-        </motion.div>
-        <motion.div style={{ rotate: rotate2, y: translateY2, x: '5vw' }} className="absolute top-[15%] right-[15%]">
-          <MakeupIcon icon="brush" />
-        </motion.div>
-        <motion.div style={{ rotate: rotate3, y: translateY3, x: '-10vw' }} className="absolute top-[40%] left-[20%]">
-          <MakeupIcon icon="powder" />
-        </motion.div>
-        <motion.div style={{ rotate: rotate4, y: translateY4, x: '8vw' }} className="absolute bottom-[25%] right-[20%]">
-          <MakeupIcon icon="mascara" />
-        </motion.div>
-        <motion.div style={{ rotate: rotate5, y: translateY5, x: '-3vw' }} className="absolute bottom-[15%] left-[15%]">
-          <MakeupIcon icon="eyeshadow" />
-        </motion.div>
-      </motion.div>
-
-      {/* Hero Content */}
-      <div className="container-section h-screen flex flex-col justify-center items-center text-center relative z-10">
-        <motion.h1
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-4xl md:text-6xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-dark-pink to-light-pink dark:from-light-pink dark:to-dark-pink"
-        >
-          Beauty Redefined
-        </motion.h1>
-        <motion.p 
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-lg md:text-xl mb-8 max-w-2xl"
-        >
-          Professional makeup artistry that enhances your natural beauty and brings your vision to life.
-        </motion.p>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="flex flex-col sm:flex-row gap-4"
-        >
-          <motion.a 
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            href="#portfolio"
-            className="rounded-rounded bg-dark-pink dark:bg-light-pink text-white dark:text-gray-900 font-bold py-3 px-8 shadow-lg"
+    <section id="home" ref={containerRef} className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16">
+      {/* Background with a subtle gradient and animated effect */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white to-light-pink/20 dark:from-gray-900 dark:to-dark-pink/20 z-0"></div>
+      
+      {/* Abstract decorative elements */}
+      <motion.div 
+        className="absolute top-20 left-20 w-64 h-64 bg-light-pink dark:bg-dark-pink rounded-full opacity-20 blur-3xl"
+        animate={{
+          x: [0, 10, 0],
+          y: [0, 15, 0],
+        }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+      />
+      
+      <motion.div 
+        className="absolute bottom-20 right-20 w-96 h-96 bg-light-pink dark:bg-dark-pink rounded-full opacity-20 blur-3xl"
+        animate={{
+          x: [0, -20, 0],
+          y: [0, -10, 0],
+        }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+      />
+      
+      <div className="container-section relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <motion.h1 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-4xl md:text-6xl font-bold mb-6 glow-text animate-text-pulse"
           >
-            View Portfolio
-          </motion.a>
-          <motion.a 
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            href="#contact"
-            className="rounded-rounded border-2 border-dark-pink dark:border-light-pink text-dark-pink dark:text-light-pink font-bold py-3 px-8"
+            Lashes By Sarah
+          </motion.h1>
+          
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-xl mb-8"
           >
-            Book Now
-          </motion.a>
+            Enhancing your natural beauty with professional lash extensions, eyebrow styling, and makeup artistry.
+          </motion.p>
+          
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="flex flex-wrap gap-4"
+          >
+            <motion.a 
+              href="#contact"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="rounded-rounded bg-dark-pink dark:bg-light-pink text-white dark:text-gray-900 font-bold py-3 px-8 shadow-lg inline-flex items-center glow-button ripple"
+            >
+              Book Now
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
+            </motion.a>
+            
+            <motion.a 
+              href="#services"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="rounded-rounded border-2 border-dark-pink dark:border-light-pink text-dark-pink dark:text-light-pink font-bold py-3 px-8 shadow-lg ripple"
+            >
+              Explore Services
+            </motion.a>
+          </motion.div>
+        </div>
+        
+        <motion.div 
+          style={{ rotateX, rotateY, scale, opacity }}
+          className="hidden lg:flex justify-center items-center relative"
+        >
+          {/* 3D makeup icons floating in a circle */}
+          <div className="relative h-[400px] w-[400px]">
+            {[
+              { icon: "💄", x: "50%", y: "10%", size: "text-6xl", delay: 0 },
+              { icon: "💋", x: "85%", y: "50%", size: "text-5xl", delay: 0.2 },
+              { icon: "👁️", x: "15%", y: "45%", size: "text-5xl", delay: 0.4 },
+              { icon: "💅", x: "70%", y: "85%", size: "text-6xl", delay: 0.6 },
+              { icon: "✨", x: "20%", y: "80%", size: "text-5xl", delay: 0.8 },
+            ].map((item, index) => (
+              <motion.div 
+                key={index}
+                className={`absolute makeup-icon makeup-icon-3d ${item.size}`}
+                style={{ left: item.x, top: item.y }}
+                custom={index}
+                initial="hidden"
+                animate="visible"
+                variants={iconVariants}
+                whileHover={{ scale: 1.2, rotate: 5 }}
+                drag
+                dragConstraints={{
+                  top: -50,
+                  left: -50,
+                  right: 50,
+                  bottom: 50,
+                }}
+              >
+                {item.icon}
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
       </div>
+      
+      {/* Scroll indicator */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, y: [0, 10, 0] }}
+        transition={{ delay: 1, duration: 1.5, repeat: Infinity }}
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+      >
+        <a href="#services" className="flex flex-col items-center text-gray-400 dark:text-gray-500">
+          <span className="text-sm mb-2">Scroll Down</span>
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </a>
+      </motion.div>
     </section>
   );
 } 

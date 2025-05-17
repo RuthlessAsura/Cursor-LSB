@@ -50,7 +50,7 @@ export default function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
-          className="text-3xl md:text-4xl font-bold mb-4"
+          className="text-3xl md:text-4xl font-bold mb-4 glow-text"
         >
           Book a Session
         </motion.h2>
@@ -61,7 +61,7 @@ export default function Contact() {
           viewport={{ once: true }}
           className="max-w-2xl mx-auto text-lg"
         >
-          Ready to enhance your natural beauty? Fill out the form below to schedule your makeup session.
+          Ready to enhance your natural beauty? Fill out the form below to book your lashes, eyebrows, or makeup session.
         </motion.p>
       </div>
 
@@ -72,7 +72,7 @@ export default function Contact() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="bg-light-pink/10 dark:bg-dark-pink/10 p-8 rounded-lg"
+            className="bg-light-pink/10 dark:bg-dark-pink/10 p-8 rounded-lg glow-border"
           >
             <h3 className="text-2xl font-bold mb-4">Get In Touch</h3>
             <p className="mb-6">Have questions before booking? Feel free to reach out directly.</p>
@@ -97,7 +97,7 @@ export default function Contact() {
               </div>
               <div>
                 <h4 className="text-sm font-bold text-gray-500 dark:text-gray-400">Email</h4>
-                <p className="text-lg">info@makeupArtistry.com</p>
+                <p className="text-lg">info@LashesBySarah.com</p>
               </div>
             </div>
             
@@ -110,7 +110,7 @@ export default function Contact() {
               </div>
               <div>
                 <h4 className="text-sm font-bold text-gray-500 dark:text-gray-400">Location</h4>
-                <p className="text-lg">123 Beauty Street, New York, NY 10001</p>
+                <p className="text-lg">Barlad, Romania</p>
               </div>
             </div>
             
@@ -139,7 +139,22 @@ export default function Contact() {
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <motion.form 
+              onSubmit={handleSubmit} 
+              className="space-y-6"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={{
+                hidden: { opacity: 0 },
+                visible: {
+                  opacity: 1,
+                  transition: {
+                    staggerChildren: 0.1
+                  }
+                }
+              }}
+            >
               <div>
                 <label htmlFor="name" className="block text-sm font-bold mb-2">Full Name</label>
                 <input
@@ -192,12 +207,9 @@ export default function Contact() {
                     required
                   >
                     <option value="">Select a service</option>
-                    <option value="bridal">Bridal Makeup</option>
-                    <option value="special">Special Occasion</option>
-                    <option value="lessons">Makeup Lessons</option>
-                    <option value="editorial">Editorial Makeup</option>
-                    <option value="group">Group Booking</option>
-                    <option value="consultation">Consultation</option>
+                    <option value="lashes">Lashes</option>
+                    <option value="eyebrows">Eyebrows</option>
+                    <option value="makeup">Makeup</option>
                   </select>
                 </div>
                 <div>
@@ -228,9 +240,13 @@ export default function Contact() {
               
               <motion.button
                 type="submit"
-                whileHover={{ scale: 1.02 }}
+                whileHover={{ scale: 1.02, boxShadow: '0 0 15px rgba(255, 144, 188, 0.8)' }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full py-3 px-6 bg-dark-pink hover:bg-dark-pink/90 dark:bg-light-pink dark:hover:bg-light-pink/90 text-white dark:text-gray-900 rounded-rounded font-bold shadow-lg transition-colors"
+                className="w-full py-3 px-6 bg-dark-pink hover:bg-dark-pink/90 dark:bg-light-pink dark:hover:bg-light-pink/90 text-white dark:text-gray-900 rounded-rounded font-bold shadow-lg transition-colors glow-button ripple"
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+                }}
               >
                 Book Appointment
               </motion.button>
@@ -239,7 +255,7 @@ export default function Contact() {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="p-4 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-lg mt-4"
+                  className="p-4 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-lg mt-4 glow-border"
                 >
                   <p className="font-bold">Thank you!</p>
                   <p>Your appointment request has been received. We'll contact you shortly to confirm.</p>
@@ -256,7 +272,7 @@ export default function Contact() {
                   <p>Something went wrong. Please try again or contact us directly.</p>
                 </motion.div>
               )}
-            </form>
+            </motion.form>
           </motion.div>
         </div>
       </div>

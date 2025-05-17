@@ -1,42 +1,21 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Sample portfolio items (in a real app, you would import actual images)
+// Portfolio items using local images from the poze folder
 const portfolioItems = [
   {
     id: 1,
-    title: "Bridal Makeup",
-    category: "Wedding",
-    image: "https://images.unsplash.com/photo-1532592441-e85633bf8be0?q=80&w=1000&auto=format&fit=crop",
-    description: "Elegant and timeless bridal makeup for your special day."
+    title: "2D Lashes",
+    category: "Lashes",
+    image: "/poze/2d-lashes.jpg",
+    description: "Beautiful and natural 2D lash extensions."
   },
   {
     id: 2,
-    title: "Bold Evening Look",
-    category: "Evening",
-    image: "https://images.unsplash.com/photo-1512257639414-c1c89abb7ecf?q=80&w=1000&auto=format&fit=crop",
-    description: "Dramatic eyes and bold lips for a night out."
-  },
-  {
-    id: 3,
-    title: "Natural Glow",
-    category: "Everyday",
-    image: "https://images.unsplash.com/photo-1591487220420-f32a97fea5ee?q=80&w=1000&auto=format&fit=crop",
-    description: "Light, natural makeup that enhances your features."
-  },
-  {
-    id: 4,
-    title: "Editorial Makeup",
-    category: "Fashion",
-    image: "https://images.unsplash.com/photo-1516195851888-6f1a981a862e?q=80&w=1000&auto=format&fit=crop",
-    description: "Creative and avant-garde makeup for fashion shoots."
-  },
-  {
-    id: 5,
-    title: "Special Occasion",
-    category: "Event",
-    image: "https://images.unsplash.com/photo-1607362578904-c2bc1d14e2a5?q=80&w=1000&auto=format&fit=crop",
-    description: "Glamorous makeup for special events and celebrations."
+    title: "3D Lash Extensions",
+    category: "Lashes",
+    image: "/poze/3d-lashes.jpg",
+    description: "Voluminous and dramatic 3D lash extensions."
   }
 ];
 
@@ -123,7 +102,7 @@ export default function Portfolio() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
-          className="text-3xl md:text-4xl font-bold mb-4"
+          className="text-3xl md:text-4xl font-bold mb-4 glow-text"
         >
           Portfolio
         </motion.h2>
@@ -139,12 +118,16 @@ export default function Portfolio() {
       </div>
 
       {/* Carousel */}
-      <div 
-        className="relative overflow-hidden h-[500px] md:h-[600px] mx-auto max-w-4xl rounded-lg shadow-lg"
+      <motion.div 
+        className="relative overflow-hidden h-[500px] md:h-[600px] mx-auto max-w-4xl rounded-lg shadow-lg glow-border"
         ref={carouselRef}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
       >
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
@@ -160,46 +143,52 @@ export default function Portfolio() {
             }}
             className="absolute w-full h-full"
           >
-            <div 
+            <motion.div 
               className="relative w-full h-full bg-cover bg-center cursor-pointer"
               style={{ backgroundImage: `url(${portfolioItems[currentIndex].image})` }}
               onClick={() => openZoomView(portfolioItems[currentIndex].image)}
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.4 }}
             >
-              <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-6">
-                <h3 className="text-xl md:text-2xl font-bold">{portfolioItems[currentIndex].title}</h3>
+              <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-6 backdrop-blur-sm">
+                <h3 className="text-xl md:text-2xl font-bold glow-text">{portfolioItems[currentIndex].title}</h3>
                 <p className="text-sm md:text-base mt-2">{portfolioItems[currentIndex].description}</p>
                 <span className="inline-block mt-2 px-3 py-1 bg-light-pink text-gray-900 text-xs rounded-full font-bold">
                   {portfolioItems[currentIndex].category}
                 </span>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         </AnimatePresence>
         
         {/* Navigation buttons */}
-        <button 
+        <motion.button 
           onClick={prevSlide} 
-          className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 dark:bg-gray-800/80 flex items-center justify-center shadow-lg z-10 hover:bg-white dark:hover:bg-gray-800"
+          className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 dark:bg-gray-800/80 flex items-center justify-center shadow-lg z-10 hover:bg-white dark:hover:bg-gray-800 ripple"
+          whileHover={{ scale: 1.1, boxShadow: '0 0 10px rgba(255, 255, 255, 0.5)' }}
+          whileTap={{ scale: 0.9 }}
           aria-label="Previous image"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
-        </button>
-        <button 
+        </motion.button>
+        <motion.button 
           onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 dark:bg-gray-800/80 flex items-center justify-center shadow-lg z-10 hover:bg-white dark:hover:bg-gray-800"
+          className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 dark:bg-gray-800/80 flex items-center justify-center shadow-lg z-10 hover:bg-white dark:hover:bg-gray-800 ripple"
+          whileHover={{ scale: 1.1, boxShadow: '0 0 10px rgba(255, 255, 255, 0.5)' }}
+          whileTap={{ scale: 0.9 }}
           aria-label="Next image"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
-        </button>
+        </motion.button>
 
         {/* Dots indicator */}
         <div className="absolute bottom-20 left-0 right-0 flex justify-center gap-2">
           {portfolioItems.map((_, index) => (
-            <button 
+            <motion.button 
               key={index}
               onClick={() => { 
                 setDirection(index > currentIndex ? 1 : -1);
@@ -208,20 +197,27 @@ export default function Portfolio() {
               className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-all ${
                 index === currentIndex ? 'bg-light-pink scale-125' : 'bg-white/50'
               }`}
+              whileHover={{ scale: 1.3 }}
+              whileTap={{ scale: 0.8 }}
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}
         </div>
 
         {/* Click to view message */}
-        <div className="absolute top-4 right-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm flex items-center">
+        <motion.div 
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1 }}
+          className="absolute top-4 right-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm flex items-center backdrop-blur-sm"
+        >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
           </svg>
           Click to zoom
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Zoomed image modal */}
       <AnimatePresence>
@@ -236,28 +232,31 @@ export default function Portfolio() {
             <motion.img
               src={selectedImage}
               alt="Zoomed portfolio work"
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
-              className="max-h-[90vh] max-w-[90vw] object-contain pointer-events-none"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ type: "spring", damping: 15 }}
+              className="max-h-[90vh] max-w-[90vw] object-contain pointer-events-none glow-border"
             />
-            <button 
-              className="absolute top-4 right-4 text-white bg-black/50 w-10 h-10 rounded-full flex items-center justify-center"
+            <motion.button 
+              className="absolute top-4 right-4 text-white bg-black/50 w-10 h-10 rounded-full flex items-center justify-center ripple"
               onClick={closeZoomView}
+              whileHover={{ scale: 1.1, backgroundColor: "rgba(0, 0, 0, 0.7)" }}
+              whileTap={{ scale: 0.9 }}
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
-            </button>
+            </motion.button>
           </motion.div>
         )}
       </AnimatePresence>
 
       <div className="mt-12 text-center">
         <motion.button
-          whileHover={{ scale: 1.05 }}
+          whileHover={{ scale: 1.05, boxShadow: '0 0 15px rgba(255, 144, 188, 0.8)' }}
           whileTap={{ scale: 0.95 }}
-          className="rounded-rounded bg-dark-pink dark:bg-light-pink text-white dark:text-gray-900 font-bold py-3 px-8 shadow-lg inline-flex items-center"
+          className="rounded-rounded bg-dark-pink dark:bg-light-pink text-white dark:text-gray-900 font-bold py-3 px-8 shadow-lg inline-flex items-center glow-button ripple"
         >
           View More Work
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">

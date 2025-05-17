@@ -8,6 +8,8 @@
   --dark-pink: #FF90BC;
   --text-color: #333;
   --bg-color: #fff;
+  --glow-light: rgba(255, 209, 220, 0.6);
+  --glow-dark: rgba(255, 144, 188, 0.6);
 }
 
 .dark {
@@ -15,6 +17,8 @@
   --dark-pink: #FF6B9D;
   --text-color: #f0f0f0;
   --bg-color: #1a1a1a;
+  --glow-light: rgba(255, 144, 188, 0.6);
+  --glow-dark: rgba(255, 107, 157, 0.6);
 }
 
 body {
@@ -35,12 +39,12 @@ button {
   padding: 0.6em 1.2em;
   font-weight: bold;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.2s, box-shadow 0.3s;
 }
 
 button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .makeup-icon {
@@ -49,6 +53,93 @@ button:hover {
 
 .makeup-icon-3d {
   transform-style: preserve-3d;
+}
+
+/* Glow effects */
+.glow-button {
+  box-shadow: 0 0 10px var(--glow-light), 0 0 20px var(--glow-light);
+  animation: pulse 2s infinite;
+}
+
+.glow-text {
+  text-shadow: 0 0 8px var(--glow-light);
+}
+
+.glow-border {
+  box-shadow: 0 0 10px var(--glow-light);
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 10px var(--glow-light);
+  }
+  50% {
+    box-shadow: 0 0 20px var(--glow-light), 0 0 25px var(--glow-dark);
+  }
+  100% {
+    box-shadow: 0 0 10px var(--glow-light);
+  }
+}
+
+@keyframes textPulse {
+  0% {
+    text-shadow: 0 0 5px var(--glow-light);
+  }
+  50% {
+    text-shadow: 0 0 10px var(--glow-light), 0 0 15px var(--glow-dark);
+  }
+  100% {
+    text-shadow: 0 0 5px var(--glow-light);
+  }
+}
+
+.animate-text-pulse {
+  animation: textPulse 3s infinite;
+}
+
+/* Page transition effects */
+.page-transition {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Click ripple effect */
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  transform: scale(10, 10);
+  opacity: 0;
+  transition: transform 0.5s, opacity 0.8s;
+}
+
+.ripple:active:after {
+  transform: scale(0, 0);
+  opacity: 0.3;
+  transition: 0s;
 }
 
 @layer components {

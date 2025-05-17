@@ -1,4 +1,5 @@
-import { useState, useEffect, ReactNode } from 'react';
+import { useState, useEffect } from 'react';
+import type { ReactNode } from 'react';
 
 interface LayoutProps {
   children: ReactNode;
@@ -32,7 +33,7 @@ export default function Layout({ children }: LayoutProps) {
     <div className={`min-h-screen transition-colors duration-300 ${darkMode ? 'dark' : ''}`}>
       <header className="fixed w-full top-0 z-50 bg-white/70 dark:bg-gray-900/70 backdrop-blur shadow-sm">
         <div className="container-section py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-dark-pink">Makeup Artistry</h1>
+          <h1 className="text-2xl font-bold text-dark-pink">Lashes By Sarah</h1>
           <nav className="hidden md:flex gap-8">
             <a href="#home" className="font-bold hover:text-dark-pink transition-colors">Home</a>
             <a href="#services" className="font-bold hover:text-dark-pink transition-colors">Services</a>
@@ -71,7 +72,7 @@ export default function Layout({ children }: LayoutProps) {
         <div className="container-section py-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <h3 className="text-xl font-bold mb-4">Makeup Artistry</h3>
+              <h3 className="text-xl font-bold mb-4">Lashes By Sarah</h3>
               <p className="mb-4">Transforming faces, empowering beauty.</p>
               <div className="flex gap-4">
                 <a href="#" className="text-dark-pink hover:text-dark-pink/80">
@@ -96,15 +97,15 @@ export default function Layout({ children }: LayoutProps) {
             <div>
               <h3 className="text-xl font-bold mb-4">Contact</h3>
               <ul>
-                <li className="mb-2">123 Beauty Street</li>
+                <li className="mb-2">Barlad, Romania</li>
                 <li className="mb-2">New York, NY 10001</li>
-                <li className="mb-2">Email: info@makeupArtistry.com</li>
+                <li className="mb-2">Email: info@LashesBySarah.com</li>
                 <li className="mb-2">Phone: (123) 456-7890</li>
               </ul>
             </div>
           </div>
           <div className="border-t border-light-pink dark:border-dark-pink mt-8 pt-6 text-center">
-            <p>© {new Date().getFullYear()} Makeup Artistry. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} Lashes By Sarah. All rights reserved.</p>
           </div>
         </div>
       </footer>
