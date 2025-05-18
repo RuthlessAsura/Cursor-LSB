@@ -61,17 +61,6 @@ export default function About() {
               </li>
             </ul>
           </div>
-          
-        
-          
-          <motion.a
-            href="#contact"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="inline-block rounded-rounded bg-dark-pink dark:bg-light-pink text-white dark:text-gray-900 font-bold py-3 px-8 shadow-lg"
-          >
-            Book a Session
-          </motion.a>
         </motion.div>
       </div>
       

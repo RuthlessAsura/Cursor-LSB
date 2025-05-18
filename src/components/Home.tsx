@@ -119,15 +119,15 @@ export default function Home() {
         
         <motion.div 
           style={{ rotateX, rotateY, scale, opacity }}
-          className="relative h-[400px] w-[400px] hidden lg:block"
+          className="relative h-[300px] md:h-[350px] lg:h-[400px] w-full block"
         >
           {/* 3D makeup icons floating in a circle */}
           {[
-            { icon: "💄", x: "50%", y: "10%", size: "text-6xl", delay: 0 },
-            { icon: "💋", x: "85%", y: "50%", size: "text-5xl", delay: 0.2 },
-            { icon: "👁️", x: "15%", y: "45%", size: "text-5xl", delay: 0.4 },
-            { icon: "💅", x: "70%", y: "85%", size: "text-6xl", delay: 0.6 },
-            { icon: "✨", x: "20%", y: "80%", size: "text-5xl", delay: 0.8 },
+            { icon: "💄", x: "50%", y: "10%", size: "text-5xl md:text-6xl", delay: 0 },
+            { icon: "💋", x: "80%", y: "50%", size: "text-4xl md:text-5xl", delay: 0.2 },
+            { icon: "👁️", x: "15%", y: "45%", size: "text-4xl md:text-5xl", delay: 0.4 },
+            { icon: "💅", x: "70%", y: "85%", size: "text-5xl md:text-6xl", delay: 0.6 },
+            { icon: "✨", x: "20%", y: "80%", size: "text-4xl md:text-5xl", delay: 0.8 },
           ].map((item, index) => (
             <motion.div 
               key={index}

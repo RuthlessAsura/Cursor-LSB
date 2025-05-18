@@ -9,9 +9,9 @@ export default {
       colors: {
         'light-pink': '#FFD1DC',
         'dark-pink': '#FF90BC',
-        'dark-bg': '#121212',
-        'dark-surface': '#1F1F1F',
-        'dark-accent': '#FFB6C1',
+        'dark-bg': '#1A1A2E',
+        'dark-surface': '#16213E',
+        'dark-accent': '#E94560',
       },
       fontWeight: {
         'bold': 700,

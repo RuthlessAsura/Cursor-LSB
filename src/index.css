@@ -13,21 +13,127 @@
 }
 
 .dark {
-  --light-pink: #FF90BC;
+  --light-pink: #E94560;
   --dark-pink: #FF6B9D;
   --text-color: #f0f0f0;
-  --bg-color: #121212;
-  --glow-light: rgba(255, 144, 188, 0.6);
+  --bg-color: #1A1A2E;
+  --glow-light: rgba(233, 69, 96, 0.6);
   --glow-dark: rgba(255, 107, 157, 0.6);
 }
 
-body {
+/* Prevent horizontal scrolling */
+html, body {
   margin: 0;
   padding: 0;
+  width: 100%;
   min-height: 100vh;
   color: var(--text-color);
   background-color: var(--bg-color);
   transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+  max-width: 100vw;
+  position: relative;
+}
+
+/* Fix for mobile browsers */
+#root {
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Portfolio images fixes for small screens */
+.portfolio-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Special class to ensure images are visible on mobile */
+.mobile-visible-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Force image display on mobile no matter what */
+@media (max-width: 640px) {
+  /* Make the background image hide on small screens */
+  [style*="background-image"] {
+    background-image: none !important;
+  }
+  
+  /* Make carousel images always visible on small screens */
+  .portfolio-carousel img,
+  .mobile-visible-image {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 5 !important;
+  }
+
+  /* Add mobile-specific carousel height */
+  .portfolio-carousel {
+    height: 350px !important;
+    min-height: 300px !important;
+  }
+}
+
+/* Improve modal responsiveness */
+.fixed {
+  position: fixed !important;
+}
+
+/* Image zoom modal styles */
+@media (max-width: 640px) {
+  .zoomed-image-container {
+    padding: 0.5rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .navigation-button {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    margin: 0 0.25rem !important;
+    opacity: 0.9 !important;
+  }
+}
+
+/* Add touch-friendly styles for mobile */
+@media (hover: none) {
+  .navigation-button {
+    opacity: 0.9 !important;
+  }
+}
+
+/* Additional fixes for better mobile experience */
+@media (max-width: 640px) {
+  /* Ensure the modal takes full screen */
+  .fixed.inset-0 {
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+  }
+
+  /* Center content on small screens */
+  .flex.items-center.justify-center {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+  }
+  
+  /* Make sure images are properly sized */
+  .max-h-\[80vh\].max-w-\[90vw\] {
+    max-width: calc(100vw - 2rem) !important;
+    max-height: calc(100vh - 5rem) !important;
+  }
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -69,6 +175,42 @@ button:hover {
   box-shadow: 0 0 10px var(--glow-light);
 }
 
+/* Fix for containers to prevent overflow */
+.container-section {
+  width: 100%;
+  max-width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+@media (min-width: 640px) {
+  .container-section {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container-section {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-section {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container-section {
+    max-width: 1280px;
+  }
+}
+
+/* Rest of the existing CSS */
 @keyframes pulse {
   0% {
     box-shadow: 0 0 10px var(--glow-light);

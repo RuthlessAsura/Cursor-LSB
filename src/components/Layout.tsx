@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface LayoutProps {
   children: ReactNode;
@@ -18,10 +18,41 @@ const linkUnderlineVariants = {
 export default function Layout({ children }: LayoutProps) {
   // Default to light mode
   const [darkMode, setDarkMode] = useState(false);
+  // Mobile menu state
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Toggle dark mode
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
+  };
+
+  // Toggle mobile menu
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  // Handle section navigation with smooth scrolling
+  const scrollToSection = (sectionId: string) => {
+    // Close mobile menu before scrolling
+    setMobileMenuOpen(false);
+    
+    // Use requestAnimationFrame to ensure UI updates before scrolling
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const section = document.getElementById(sectionId);
+        if (section) {
+          // Calculate the correct scroll position with header offset
+          const headerOffset = 80; // Adjust this value based on your header height
+          const sectionPosition = section.getBoundingClientRect().top;
+          const offsetPosition = sectionPosition + window.pageYOffset - headerOffset;
+          
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
   };
 
   // Apply dark mode class to document
@@ -34,28 +65,29 @@ export default function Layout({ children }: LayoutProps) {
   }, [darkMode]);
 
   // Create a styled NavLink with animation
-  const NavLink = ({ href, label }: { href: string, label: string }) => (
-    <motion.div 
-      className="relative"
-      initial="initial"
-      whileHover="hover"
-    >
-      <a 
-        href={href} 
-        className="font-bold hover:text-dark-pink transition-colors"
-        onClick={(e) => {
-          e.preventDefault();
-          document.getElementById(href.replace('#', ''))?.scrollIntoView({ behavior: 'smooth' });
-        }}
-      >
-        {label}
-      </a>
+  const NavLink = ({ href, label, mobile = false }: { href: string, label: string, mobile?: boolean }) => {
+    const sectionId = href;
+    
+    return (
       <motion.div 
-        className="absolute bottom-0 left-0 h-0.5 bg-dark-pink dark:bg-light-pink"
-        variants={linkUnderlineVariants}
-      />
-    </motion.div>
-  );
+        className={`relative ${mobile ? 'w-full text-center py-3' : ''}`}
+        initial="initial"
+        whileHover="hover"
+      >
+        <button
+          className={`font-bold hover:text-dark-pink transition-colors ${mobile ? 'text-xl w-full' : ''}`}
+          onClick={() => scrollToSection(sectionId)}
+          aria-label={`Navigate to ${label} section`}
+        >
+          {label}
+        </button>
+        <motion.div 
+          className="absolute bottom-0 left-0 h-0.5 bg-dark-pink dark:bg-light-pink"
+          variants={linkUnderlineVariants}
+        />
+      </motion.div>
+    );
+  };
 
   return (
     <div className={`min-h-screen transition-colors duration-300 ${darkMode ? 'dark' : ''}`}>
@@ -63,40 +95,73 @@ export default function Layout({ children }: LayoutProps) {
         <div className="container-section py-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-dark-pink dark:text-light-pink">Lashes By Sarah</h1>
           <nav className="hidden md:flex gap-8">
-            <NavLink href="#home" label="Home" />
-            <NavLink href="#services" label="Services" />
-            <NavLink href="#portfolio" label="Portfolio" />
-            <NavLink href="#about" label="About" />
-            <NavLink href="#contact" label="Contact" />
+            <NavLink href="home" label="Home" />
+            <NavLink href="services" label="Services" />
+            <NavLink href="portfolio" label="Portfolio" />
+            <NavLink href="about" label="About" />
+            <NavLink href="contact" label="Contact" />
           </nav>
-          <button 
-            onClick={toggleDarkMode}
-            className="p-2 rounded-full bg-light-pink dark:bg-dark-pink text-white"
-            aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-          >
-            {darkMode ? (
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
-              </svg>
-            ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-              </svg>
-            )}
-          </button>
-          <button className="md:hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={toggleDarkMode}
+              className="p-2 rounded-full bg-light-pink dark:bg-dark-pink text-white"
+              aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {darkMode ? (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                </svg>
+              )}
+            </button>
+            <button 
+              onClick={toggleMobileMenu} 
+              className="md:hidden p-2 rounded-full hover:bg-light-pink/20 dark:hover:bg-dark-pink/20"
+              aria-label="Toggle mobile menu"
+            >
+              {mobileMenuOpen ? (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
+            </button>
+          </div>
         </div>
+        
+        {/* Mobile menu */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.nav 
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 w-full left-0"
+            >
+              <div className="py-2 flex flex-col gap-1">
+                <NavLink href="home" label="Home" mobile={true} />
+                <NavLink href="services" label="Services" mobile={true} />
+                <NavLink href="portfolio" label="Portfolio" mobile={true} />
+                <NavLink href="about" label="About" mobile={true} />
+                <NavLink href="contact" label="Contact" mobile={true} />
+              </div>
+            </motion.nav>
+          )}
+        </AnimatePresence>
       </header>
 
-      <main className="pt-[72px]">
+      <main className="pt-[72px] overflow-x-hidden w-full">
         {children}
       </main>
 
-      <footer className="bg-light-pink/20 dark:bg-dark-pink/10">
+      <footer className="bg-light-pink/20 dark:bg-dark-pink/10 w-full overflow-x-hidden">
         <div className="container-section py-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
@@ -126,7 +191,6 @@ export default function Layout({ children }: LayoutProps) {
               <h3 className="text-xl font-bold mb-4">Contact</h3>
               <ul>
                 <li className="mb-2">Barlad, Romania</li>
-                <li className="mb-2">New York, NY 10001</li>
                 <li className="mb-2">Email: info@LashesBySarah.com</li>
                 <li className="mb-2">Phone: (123) 456-7890</li>
               </ul>
