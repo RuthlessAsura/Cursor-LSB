@@ -3,59 +3,6 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import ScrollReveal from './ScrollReveal';
 import AnimatedButton from './AnimatedButton';
 
-// 3D Makeup icons using SVG
-const MakeupIcon = ({ icon, className, style }: { icon: string; className?: string; style?: React.CSSProperties }) => {
-  return (
-    <motion.div 
-      className={`makeup-icon makeup-icon-3d ${className}`} 
-      style={style}
-      whileHover={{ scale: 1.1, rotate: 5 }}
-      transition={{ type: "spring", stiffness: 300 }}
-    >
-      {icon === 'lipstick' && (
-        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M28 16V42C28 44.2091 26.2091 46 24 46H19C16.7909 46 15 44.2091 15 42V16" fill="#FF6B9D"/>
-          <path d="M15 16H28V12C28 9.79086 26.2091 8 24 8H19C16.7909 8 15 9.79086 15 12V16Z" fill="#FFD1DC"/>
-          <path d="M28 16V42C28 44.2091 26.2091 46 24 46H19C16.7909 46 15 44.2091 15 42V16H28Z" stroke="#333" strokeWidth="2"/>
-          <path d="M15 16H28V12C28 9.79086 26.2091 8 24 8H19C16.7909 8 15 9.79086 15 12V16Z" stroke="#333" strokeWidth="2"/>
-        </svg>
-      )}
-      {icon === 'brush' && (
-        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M44 12L20 36L16 48L28 44L52 20L44 12Z" fill="#FFD1DC" stroke="#333" strokeWidth="2"/>
-          <path d="M36 20L44 28" stroke="#333" strokeWidth="2"/>
-        </svg>
-      )}
-      {icon === 'powder' && (
-        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="32" cy="32" r="20" fill="#FFD1DC" stroke="#333" strokeWidth="2"/>
-          <circle cx="32" cy="32" r="16" fill="#FF90BC" stroke="#333" strokeWidth="2"/>
-          <path d="M24 24L40 40" stroke="#333" strokeWidth="2"/>
-          <path d="M40 24L24 40" stroke="#333" strokeWidth="2"/>
-        </svg>
-      )}
-      {icon === 'mascara' && (
-        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="20" y="12" width="10" height="30" rx="2" fill="#333" stroke="#333" strokeWidth="2"/>
-          <path d="M25 42V52" stroke="#333" strokeWidth="2"/>
-          <path d="M22 52H28" stroke="#333" strokeWidth="2"/>
-          <rect x="24" y="16" width="2" height="20" fill="#FF90BC"/>
-          <path d="M30 12H38C39.1046 12 40 12.8954 40 14V18C40 19.1046 39.1046 20 38 20H30V12Z" fill="#FF6B9D" stroke="#333" strokeWidth="2"/>
-        </svg>
-      )}
-      {icon === 'eyeshadow' && (
-        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="12" y="20" width="40" height="24" rx="4" fill="#333" stroke="#333" strokeWidth="2"/>
-          <rect x="16" y="24" width="8" height="8" rx="2" fill="#FFD1DC" stroke="#333"/>
-          <rect x="26" y="24" width="8" height="8" rx="2" fill="#FF90BC" stroke="#333"/>
-          <rect x="36" y="24" width="8" height="8" rx="2" fill="#FF6B9D" stroke="#333"/>
-          <rect x="16" y="34" width="28" height="6" rx="2" fill="#FFD1DC" stroke="#333"/>
-        </svg>
-      )}
-    </motion.div>
-  );
-};
-
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
