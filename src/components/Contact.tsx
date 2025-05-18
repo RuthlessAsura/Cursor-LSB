@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import AnimatedButton from './AnimatedButton';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -242,7 +243,7 @@ export default function Contact() {
                 type="submit"
                 whileHover={{ scale: 1.02, boxShadow: '0 0 15px rgba(255, 144, 188, 0.8)' }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full py-3 px-6 bg-dark-pink hover:bg-dark-pink/90 dark:bg-light-pink dark:hover:bg-light-pink/90 text-white dark:text-gray-900 rounded-rounded font-bold shadow-lg transition-colors glow-button ripple"
+                className="w-full py-3 px-6 bg-dark-pink hover:bg-dark-pink/90 dark:bg-light-pink dark:hover:bg-light-pink/90 text-white dark:text-gray-900 rounded-full font-bold shadow-lg transition-colors glow-button ripple"
                 variants={{
                   hidden: { opacity: 0, y: 20 },
                   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }

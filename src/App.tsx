@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import Layout from './components/Layout'
 import Home from './components/Home'
 import Services from './components/Services'
@@ -19,6 +20,27 @@ function App() {
     return () => clearTimeout(timer)
   }, [])
 
+  // Page transition variants
+  const pageVariants = {
+    initial: {
+      opacity: 0
+    },
+    animate: {
+      opacity: 1,
+      transition: {
+        duration: 0.4,
+        when: 'beforeChildren',
+        staggerChildren: 0.2
+      }
+    },
+    exit: {
+      opacity: 0,
+      transition: {
+        duration: 0.3
+      }
+    }
+  }
+
   if (isLoading) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-white dark:bg-gray-900">
@@ -34,13 +56,23 @@ function App() {
   }
 
   return (
-    <Layout>
-      <Home />
-      <Services />
-      <Portfolio />
-      <About />
-      <Contact />
-    </Layout>
+    <AnimatePresence mode="wait">
+      <motion.div
+        key="main-content"
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        variants={pageVariants}
+      >
+        <Layout>
+          <Home />
+          <Services />
+          <Portfolio />
+          <About />
+          <Contact />
+        </Layout>
+      </motion.div>
+    </AnimatePresence>
   )
 }
 

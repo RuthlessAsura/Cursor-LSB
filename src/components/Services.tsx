@@ -1,4 +1,8 @@
 import { motion } from 'framer-motion';
+import ScrollReveal from './ScrollReveal';
+import AnimatedText from './AnimatedText';
+import AnimatedButton from './AnimatedButton';
+import GlassCard from './GlassCard';
 
 // Services data
 const services = [
@@ -42,23 +46,12 @@ const services = [
   }
 ];
 
-// Animation variants
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2
-    }
-  }
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5 }
+// Animation for text link underline
+const linkUnderlineVariants = {
+  initial: { width: "0%" },
+  hover: { 
+    width: "100%", 
+    transition: { duration: 0.3 }
   }
 };
 
@@ -66,77 +59,71 @@ export default function Services() {
   return (
     <section id="services" className="container-section py-16 bg-light-pink/5 dark:bg-dark-pink/5">
       <div className="text-center mb-12">
-        <motion.h2 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="text-3xl md:text-4xl font-bold mb-4 glow-text animate-text-pulse"
-        >
-          Services
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          viewport={{ once: true }}
-          className="max-w-2xl mx-auto text-lg"
-        >
-          Professional beauty services specializing in lash extensions, eyebrow design, and makeup artistry.
-        </motion.p>
+        <AnimatedText 
+          text="Services"
+          gradient={true}
+          className="text-3xl md:text-4xl font-bold mb-4"
+        />
+        
+        <ScrollReveal delay={0.2}>
+          <p className="max-w-2xl mx-auto text-lg">
+            Professional beauty services specializing in lash extensions, eyebrow design, and makeup artistry.
+          </p>
+        </ScrollReveal>
       </div>
 
-      <motion.div 
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-      >
-        {services.map((service) => (
-          <motion.div
-            key={service.id}
-            variants={itemVariants}
-            whileHover={{ y: -5, boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)' }}
-            className="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-lg transition-all duration-300 hover:shadow-xl glow-border"
-          >
-            <div className="mb-4 text-dark-pink dark:text-light-pink">
-              {service.icon}
-            </div>
-            <h3 className="text-xl font-bold mb-3 glow-text">{service.title}</h3>
-            <p>{service.description}</p>
-            <motion.a
-              href="#contact"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95, transition: { duration: 0.1 } }}
-              className="mt-6 inline-flex items-center text-dark-pink dark:text-light-pink font-bold ripple"
-            >
-              Book Service
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-              </svg>
-            </motion.a>
-          </motion.div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {services.map((service, index) => (
+          <ScrollReveal key={service.id} delay={index * 0.15}>
+            <GlassCard className="p-8">
+              <div className="mb-4 text-dark-pink dark:text-light-pink">
+                <motion.div 
+                  whileHover={{ rotate: [0, -10, 10, -5, 0], scale: 1.1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {service.icon}
+                </motion.div>
+              </div>
+              
+              <h3 className="text-xl font-bold mb-3">{service.title}</h3>
+              <p>{service.description}</p>
+              
+              <motion.div
+                className="mt-6 inline-block relative group"
+                initial="initial"
+                whileHover="hover"
+              >
+                <a 
+                  href="#contact"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="inline-flex items-center text-dark-pink dark:text-light-pink font-bold"
+                >
+                  Book Service
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </a>
+                <motion.div 
+                  className="absolute bottom-0 left-0 h-0.5 bg-dark-pink dark:bg-light-pink"
+                  variants={linkUnderlineVariants}
+                />
+              </motion.div>
+            </GlassCard>
+          </ScrollReveal>
         ))}
-      </motion.div>
-
-      <div className="mt-16 text-center">
-        <motion.a
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ 
-            scale: 0.95, 
-            boxShadow: '0 0 15px rgba(255, 144, 188, 0.8)',
-            transition: { duration: 0.1 } 
-          }}
-          href="#pricing"
-          className="rounded-rounded bg-dark-pink dark:bg-light-pink text-white dark:text-gray-900 font-bold py-3 px-8 shadow-lg inline-flex items-center glow-button ripple"
-        >
-          View Pricing
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z" clipRule="evenodd" />
-          </svg>
-        </motion.a>
       </div>
+
+      <ScrollReveal delay={0.4} className="mt-16 text-center">
+        <AnimatedButton 
+          text="View Pricing"
+          onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
+          glowing={true}
+          className="font-bold py-3 px-8"
+        />
+      </ScrollReveal>
     </section>
   );
 } 

@@ -1,19 +1,31 @@
 import { useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
+import { motion } from 'framer-motion';
 
 interface LayoutProps {
   children: ReactNode;
 }
 
-export default function Layout({ children }: LayoutProps) {
-  const [darkMode, setDarkMode] = useState(false);
+// Navbar link underline animation variant
+const linkUnderlineVariants = {
+  initial: { width: "0%" },
+  hover: { 
+    width: "100%", 
+    transition: { duration: 0.3 }
+  }
+};
 
-  // Check for user's preferred theme on mount
-  useEffect(() => {
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setDarkMode(true);
-    }
-  }, []);
+// Updated dark theme colors
+const darkThemeColors = {
+  bg: '#121212',           // Darker background
+  surface: '#1F1F1F',      // Slightly lighter surface
+  primary: '#FF90BC',      // Keeping original
+  accent: '#FFB6C1',       // Softer accent color
+};
+
+export default function Layout({ children }: LayoutProps) {
+  // Default to light mode
+  const [darkMode, setDarkMode] = useState(false);
 
   // Toggle dark mode
   const toggleDarkMode = () => {
@@ -29,17 +41,41 @@ export default function Layout({ children }: LayoutProps) {
     }
   }, [darkMode]);
 
+  // Create a styled NavLink with animation
+  const NavLink = ({ href, label }: { href: string, label: string }) => (
+    <motion.div 
+      className="relative"
+      initial="initial"
+      whileHover="hover"
+    >
+      <a 
+        href={href} 
+        className="font-bold hover:text-dark-pink transition-colors"
+        onClick={(e) => {
+          e.preventDefault();
+          document.getElementById(href.replace('#', ''))?.scrollIntoView({ behavior: 'smooth' });
+        }}
+      >
+        {label}
+      </a>
+      <motion.div 
+        className="absolute bottom-0 left-0 h-0.5 bg-dark-pink dark:bg-light-pink"
+        variants={linkUnderlineVariants}
+      />
+    </motion.div>
+  );
+
   return (
     <div className={`min-h-screen transition-colors duration-300 ${darkMode ? 'dark' : ''}`}>
       <header className="fixed w-full top-0 z-50 bg-white/70 dark:bg-gray-900/70 backdrop-blur shadow-sm">
         <div className="container-section py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-dark-pink">Lashes By Sarah</h1>
+          <h1 className="text-2xl font-bold text-dark-pink dark:text-light-pink">Lashes By Sarah</h1>
           <nav className="hidden md:flex gap-8">
-            <a href="#home" className="font-bold hover:text-dark-pink transition-colors">Home</a>
-            <a href="#services" className="font-bold hover:text-dark-pink transition-colors">Services</a>
-            <a href="#portfolio" className="font-bold hover:text-dark-pink transition-colors">Portfolio</a>
-            <a href="#about" className="font-bold hover:text-dark-pink transition-colors">About</a>
-            <a href="#contact" className="font-bold hover:text-dark-pink transition-colors">Contact</a>
+            <NavLink href="#home" label="Home" />
+            <NavLink href="#services" label="Services" />
+            <NavLink href="#portfolio" label="Portfolio" />
+            <NavLink href="#about" label="About" />
+            <NavLink href="#contact" label="Contact" />
           </nav>
           <button 
             onClick={toggleDarkMode}
@@ -68,7 +104,7 @@ export default function Layout({ children }: LayoutProps) {
         {children}
       </main>
 
-      <footer className="bg-light-pink/20 dark:bg-dark-pink/20">
+      <footer className="bg-light-pink/20 dark:bg-dark-pink/10">
         <div className="container-section py-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>

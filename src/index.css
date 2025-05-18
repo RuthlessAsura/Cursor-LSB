@@ -16,7 +16,7 @@
   --light-pink: #FF90BC;
   --dark-pink: #FF6B9D;
   --text-color: #f0f0f0;
-  --bg-color: #1a1a1a;
+  --bg-color: #121212;
   --glow-light: rgba(255, 144, 188, 0.6);
   --glow-dark: rgba(255, 107, 157, 0.6);
 }
@@ -142,8 +142,112 @@ button:hover {
   transition: 0s;
 }
 
+/* New animation and style utilities */
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-dark-pink to-light-pink animate-text-gradient;
+  background-size: 200% auto;
+}
+
+.frosted-glass {
+  @apply backdrop-blur-md bg-white/30 dark:bg-black/20 border border-white/20;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.highlight-link {
+  position: relative;
+  display: inline-block;
+}
+
+.highlight-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--dark-pink);
+  transition: width 0.3s ease;
+}
+
+.highlight-link:hover::after {
+  width: 100%;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Focus animations for form inputs */
+.focus-animation {
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.focus-animation:focus {
+  border-color: var(--dark-pink);
+  box-shadow: 0 0 0 2px var(--glow-light);
+  transform: scale(1.01);
+  outline: none;
+}
+
+/* Animated underline */
+.animated-underline {
+  position: relative;
+}
+
+.animated-underline::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: currentColor;
+  transition: width 0.3s ease;
+}
+
+.animated-underline:hover::after {
+  width: 100%;
+}
+
+/* Button animations */
+.button-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.button-hover:hover {
+  transform: translateY(-2px) scale(1.03);
+}
+
+/* Dark mode improvements */
+.dark .section-bg {
+  @apply bg-dark-surface;
+}
+
+.dark .card {
+  @apply bg-dark-surface border-dark-pink/20;
+}
+
+/* Make all buttons consistently rounded */
+button, .btn, a.btn {
+  @apply rounded-full;
+}
+
 @layer components {
   .container-section {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12;
   }
+}
+
+/* Consistent button styling */
+.rounded-button {
+  @apply rounded-full transition-all duration-200 ease-out transform hover:scale-[1.03] hover:-translate-y-0.5;
 }

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import AnimatedButton from './AnimatedButton';
 
 // Portfolio items using local images from the poze folder
 const portfolioItems = [
@@ -253,16 +254,12 @@ export default function Portfolio() {
       </AnimatePresence>
 
       <div className="mt-12 text-center">
-        <motion.button
-          whileHover={{ scale: 1.05, boxShadow: '0 0 15px rgba(255, 144, 188, 0.8)' }}
-          whileTap={{ scale: 0.95 }}
-          className="rounded-rounded bg-dark-pink dark:bg-light-pink text-white dark:text-gray-900 font-bold py-3 px-8 shadow-lg inline-flex items-center glow-button ripple"
-        >
-          View More Work
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-          </svg>
-        </motion.button>
+        <AnimatedButton 
+          text="View More Work"
+          glowing={true}
+          gradient={true}
+          className="font-bold py-3 px-8"
+        />
       </div>
     </section>
   );

@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import ScrollReveal from './ScrollReveal';
+import AnimatedText from './AnimatedText';
+import AnimatedButton from './AnimatedButton';
 
 // 3D Makeup icons using SVG
 const MakeupIcon = ({ icon, className, style }: { icon: string; className?: string; style?: React.CSSProperties }) => {
@@ -132,87 +135,74 @@ export default function Home() {
       
       <div className="container-section relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <div>
-          <motion.h1 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
+          {/* Main heading - not using whileInView to ensure immediate display */}
+          <motion.h1
+            className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-dark-pink to-light-pink bg-clip-text text-transparent"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ duration: 0.6 }}
-            className="text-4xl md:text-6xl font-bold mb-6 glow-text animate-text-pulse"
           >
             Lashes By Sarah
           </motion.h1>
           
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-xl mb-8"
-          >
-            Enhancing your natural beauty with professional lash extensions, eyebrow styling, and makeup artistry.
-          </motion.p>
+          <ScrollReveal delay={0.2}>
+            <p className="text-xl mb-8">
+              Enhancing your natural beauty with professional lash extensions, eyebrow styling, and makeup artistry.
+            </p>
+          </ScrollReveal>
           
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-wrap gap-4"
-          >
-            <motion.a 
-              href="#contact"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="rounded-rounded bg-dark-pink dark:bg-light-pink text-white dark:text-gray-900 font-bold py-3 px-8 shadow-lg inline-flex items-center glow-button ripple"
-            >
-              Book Now
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-              </svg>
-            </motion.a>
-            
-            <motion.a 
-              href="#services"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="rounded-rounded border-2 border-dark-pink dark:border-light-pink text-dark-pink dark:text-light-pink font-bold py-3 px-8 shadow-lg ripple"
-            >
-              Explore Services
-            </motion.a>
-          </motion.div>
+          <ScrollReveal delay={0.4}>
+            <div className="flex flex-wrap gap-4">
+              <AnimatedButton 
+                text="Book Now"
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                glowing={true}
+                gradient={true}
+                className="font-bold py-3 px-8"
+              />
+              
+              <AnimatedButton 
+                text="Explore Services"
+                onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
+                variant="outline"
+                className="font-bold py-3 px-8"
+              />
+            </div>
+          </ScrollReveal>
         </div>
         
         <motion.div 
           style={{ rotateX, rotateY, scale, opacity }}
-          className="hidden lg:flex justify-center items-center relative"
+          className="relative h-[400px] w-[400px] hidden lg:block"
         >
           {/* 3D makeup icons floating in a circle */}
-          <div className="relative h-[400px] w-[400px]">
-            {[
-              { icon: "💄", x: "50%", y: "10%", size: "text-6xl", delay: 0 },
-              { icon: "💋", x: "85%", y: "50%", size: "text-5xl", delay: 0.2 },
-              { icon: "👁️", x: "15%", y: "45%", size: "text-5xl", delay: 0.4 },
-              { icon: "💅", x: "70%", y: "85%", size: "text-6xl", delay: 0.6 },
-              { icon: "✨", x: "20%", y: "80%", size: "text-5xl", delay: 0.8 },
-            ].map((item, index) => (
-              <motion.div 
-                key={index}
-                className={`absolute makeup-icon makeup-icon-3d ${item.size}`}
-                style={{ left: item.x, top: item.y }}
-                custom={index}
-                initial="hidden"
-                animate="visible"
-                variants={iconVariants}
-                whileHover={{ scale: 1.2, rotate: 5 }}
-                drag
-                dragConstraints={{
-                  top: -50,
-                  left: -50,
-                  right: 50,
-                  bottom: 50,
-                }}
-              >
-                {item.icon}
-              </motion.div>
-            ))}
-          </div>
+          {[
+            { icon: "💄", x: "50%", y: "10%", size: "text-6xl", delay: 0 },
+            { icon: "💋", x: "85%", y: "50%", size: "text-5xl", delay: 0.2 },
+            { icon: "👁️", x: "15%", y: "45%", size: "text-5xl", delay: 0.4 },
+            { icon: "💅", x: "70%", y: "85%", size: "text-6xl", delay: 0.6 },
+            { icon: "✨", x: "20%", y: "80%", size: "text-5xl", delay: 0.8 },
+          ].map((item, index) => (
+            <motion.div 
+              key={index}
+              className={`absolute makeup-icon makeup-icon-3d ${item.size}`}
+              style={{ left: item.x, top: item.y }}
+              custom={index}
+              initial="hidden"
+              animate="visible"
+              variants={iconVariants}
+              whileHover={{ scale: 1.2, rotate: 5 }}
+              drag
+              dragConstraints={{
+                top: -50,
+                left: -50,
+                right: 50,
+                bottom: 50,
+              }}
+            >
+              {item.icon}
+            </motion.div>
+          ))}
         </motion.div>
       </div>
       
@@ -223,11 +213,26 @@ export default function Home() {
         transition={{ delay: 1, duration: 1.5, repeat: Infinity }}
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
       >
-        <a href="#services" className="flex flex-col items-center text-gray-400 dark:text-gray-500">
+        <a 
+          href="#services" 
+          className="flex flex-col items-center text-gray-400 dark:text-gray-500"
+          onClick={(e) => {
+            e.preventDefault();
+            document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+          }}
+        >
           <span className="text-sm mb-2">Scroll Down</span>
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <motion.svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            className="h-6 w-6" 
+            fill="none" 
+            viewBox="0 0 24 24" 
+            stroke="currentColor"
+            animate={{ y: [0, 5, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+          >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
+          </motion.svg>
         </a>
       </motion.div>
     </section>
