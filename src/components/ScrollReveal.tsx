@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { motion, useAnimation } from 'framer-motion';
-import type { Variants, Variant } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 
 interface ScrollRevealProps {
   children: React.ReactNode;

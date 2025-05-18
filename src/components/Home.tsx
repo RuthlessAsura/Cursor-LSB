@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import ScrollReveal from './ScrollReveal';
-import AnimatedText from './AnimatedText';
 import AnimatedButton from './AnimatedButton';
 
 // 3D Makeup icons using SVG

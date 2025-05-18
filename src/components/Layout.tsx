@@ -15,14 +15,6 @@ const linkUnderlineVariants = {
   }
 };
 
-// Updated dark theme colors
-const darkThemeColors = {
-  bg: '#121212',           // Darker background
-  surface: '#1F1F1F',      // Slightly lighter surface
-  primary: '#FF90BC',      // Keeping original
-  accent: '#FFB6C1',       // Softer accent color
-};
-
 export default function Layout({ children }: LayoutProps) {
   // Default to light mode
   const [darkMode, setDarkMode] = useState(false);
